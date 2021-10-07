@@ -1,0 +1,57 @@
+/*************************************************
+Copyright © 2021 Ennio Marke
+ ____    ____  ____  ____   ______   _________  
+|_   \  /   _||_  _||_  _|.' ____ \ |  _   _  | 
+  |   \/   |    \ \  / /  | (___ \_||_/ | | \_| 
+  | |\  /| |     \ \/ /    _.____`.     | |     
+ _| |_\/_| |_    _|  |_   | \____) |   _| |_    
+|_____||_____|  |______|   \______.'  |_____| 
+*************************************************/
+
+html {
+    background-color: white;
+}
+
+.center {  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+/*********************************
+       :\     /;               _
+      ;  \___/  ;             ; ;
+     ,:-"'   `"-:.            / ;
+    /,---.   ,---.\         _; /
+   ((  |  ) (  |  ))    ,-""_,"
+    \`````   `````/""""",-""
+     '-.._ v _..-'      )
+       / ___   ____,..  \
+      / /   | |   | ( \. \
+     / /    | |    | |  \ \
+     `"     `"     `"    `"
+*********************************/
