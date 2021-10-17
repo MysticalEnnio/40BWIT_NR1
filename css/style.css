@@ -8,8 +8,39 @@ Copyright © 2021 Ennio Marke
 |_____||_____|  |______|   \______.'  |_____| 
 *************************************************/
 
+:root {
+  --primary-color: #302AE6;
+  --secondary-color: #536390;
+  --font-color: #424242;
+  --bg-color: #fff;
+  --heading-color: #292922;
+}
+
+[data-theme="dark"] {
+  --primary-color: #9A97F3;
+  --secondary-color: #818cab;
+  --font-color: #e1e1ff;
+  --bg-color: #161625;
+  --heading-color: #818cab;
+}
+
+h1 {
+  color: var(--secondary-color);
+}
+
 html {
-    background-color: white;
+    background-color: var(--bg-color);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  font-weight: bold;
+}
+
+a:hover, a:focus {
+  border-bottom: 3px solid currentColor;
 }
 
 .center {  
@@ -23,6 +54,23 @@ html {
   overflow: hidden;
   display: inline-block;
 }
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.6rem;
+}
+
+p .pundefined { color: var(--font-color); }
+p .pblack { color: black; }
+p .pwhite { color: white }
+p .pred { color: red }
+p .porange { color: orange }
+p .pyellow { color: yellow; }
+p .pgreen { color: lime }
+p .pblue { color: blue; }
+p .ppurple { color: purple; }
+
+
 
 .btn {
   border: 2px solid gray;

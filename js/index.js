@@ -20,20 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
   //#region tools
   const findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
 
-  function dlog(data) {
-    console.log(typeof data)
+  function dlog(data, color) {
     if(typeof data == "string" || typeof data == "number" || typeof data == "boolean" || typeof data == "array") {
-      console.log("S1")
-      dOutput.innerHTML = dOutput.innerHTML + data + "<br>"
+      dOutput.innerHTML = dOutput.innerHTML + '<p class="p' + color + '">' + data + '<br>'
     } else if(typeof data == "object") {
-      dOutput.innerHTML = dOutput.innerHTML + JSON.stringify(data) + "<br>"
+      dOutput.innerHTML = dOutput.innerHTML + '<p class="p' + color + '">' + JSON.stringify(data) + "<br>"
     }
   }
 
   //A B C D E F G H I J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  
   //1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
   function alphabetPos(letter) {
-    if (!letterRegex.test(letter)) return;
+    if (!letterRegex.test(letter)) return 0;
     return letter.toUpperCase().charCodeAt(0) - 64;
   }
 
@@ -64,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function readFileAsString(files, type) {
     if (files.length === 0) {
-      dlog('No file is selected');
+      dlog('No file is selected', "red");
       return;
     }
 
@@ -80,16 +78,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function prcInput(input) {
     //log letter and their position
-    dlog(input[0][0] + " alphabetPos: " + alphabetPos(input[0][0]))
-    input[0][1] == " " ? dlog(input[0][2] + " alphabetPos: " + alphabetPos(input[0][2])):dlog(input[0][1] + " alphabetPos: " + alphabetPos(input[0][1]));
+    dlog(input[0][0] + " alphabetPos: " + alphabetPos(input[0][0]), "green")
+    input[0][1] == " " ? dlog(input[0][2] + " alphabetPos: " + alphabetPos(input[0][2]), "green"):dlog(input[0][1] + " alphabetPos: " + alphabetPos(input[0][1]), "green");
 
     var hCarsNum = ( (alphabetPos(input[0][1]) ? alphabetPos(input[0][1]):alphabetPos(input[0][2])) > alphabetPos(input[0][0]) ?
       alphabetPos(input[0][1] == " " ? input[0][2]:input[0][1]) - alphabetPos(input[0][0]) + 1:
       alphabetPos(input[0][0]) - alphabetPos(input[0][1] == " " ? input[0][2]:input[0][1]) + 1
     );
-    dlog(hCarsNum);
+    dlog("hCarsNum: " + hCarsNum, "green");
     var vCarsNum = input.length - 2;
-    dlog(vCarsNum);
+    dlog("vCarsNum: " + vCarsNum, "green");
 
     class vCar {
       constructor(id, pos) {
@@ -102,9 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
       var car = new vCar(input[i + 2][0], input[i + 2][1] == " " ? input[i + 2][2]:input[i + 2][1]);
       vCars.push(car);
     }
-    dlog(vCars)
-    if (checkError(vCars)) {
-      dlog(checkError(vCars));
+    dlog(vCars, "green")
+    if(dlog(checkError(hCarsNum, vCars), "red")) {
+      console.log("Errors occured!")
     }
   }
 
@@ -117,45 +115,74 @@ document.addEventListener("DOMContentLoaded", () => {
   //#region 
   /*
   Errorcodes:
-  101 = Range
+  101 = Range of Alphabet
+  102 = Number of vCars
+  103 = Too many vCars
   */
   //#endregion
   //#region Main
-  function checkError(vCars) {
+  function checkError(hCarsNum, vCars) {
     var Errors = [];
-    var L1Errors = checkErrorL1(vCars);
-    if (L1Errors)
-      if (L1Errors.length > 1)
-        for (let i = 0; i < L1Errors.length; i++) {
-          Errors.push(L1Errors[i]);
-        }
+    pushErrors(checkErrorL1(), Errors)
+    pushErrors(checkErrorL2(hCarsNum), Errors)
+    pushErrors(checkErrorVCars(vCars))
+    return Errors;
+  }
 
-    return 0
+  function pushErrors(ErrorsTP, Errors) {
+    if(!ErrorsTP) return 
+    for(let i = 0; i < ErrorsTP.length; i++) {
+      Errors.push(ErrorsTP[i])
+    }
   }
   //#endregion
 
   //#region L1
   function checkErrorL1() {
-    if (alphabetPos(input[0][0]) < 2 || alphabetPos(input[0][1]) < 2) return 101
+    if (alphabetPos(input[0][0]) < 1 || input[0][1] != " " ? (alphabetPos(input[0][1]) < 1):(alphabetPos(input[0][2]) < 1)) {
+      dlog(alphabetPos(input[0][0]), "red")
+      
+      return ["101"]
+    }
   }
   //#endregion
 
   //#region L2
-  function checkErrorL2() {
-
+  function checkErrorL2(hCarsNum) {
+    var L2Errors = [];
+    if (input[1][0] != input.length - 2) {
+      L2Errors.push("102")
+    }
+    if (hCarsNum < (input[1][0] * 2)) {
+      L2Errors.push("103") 
+    }
+    return L2Errors
   }
   //#endregion
 
   //#region vCars
   function checkErrorVCars(vCars) {
-    var vCarsIds = [];
-    for (let i = 0; i < vCars.length; i++) {
-      vCarsIds.push(vCars[i].id);
-    }
-    if (findDuplicates(vCarsIds)[0] != undefined) return 101;
+    var vCarErrors = []
+    vCarErrors.push(checkDoubleIdVCars(vCars))
+    vCarErrors.push(checkDoublePosVCars(vCars))
   }
   //#endregion
 
+  //#region 
+  function checkDoubleIdVCars(vCars) {
+    var valueArr = vCars.map(function(item){ return item.id });
+    if(valueArr.some(function(item, idx){ 
+      return valueArr.indexOf(item) != idx 
+    })) return "104"
+  }
+
+  function checkDoublePosVCars(vCars) {
+    var vCarsPos = []
+    vCars.map(function(item){ vCarsPos.push(item.pos) });
+    dlog(vCarsPos)
+    return "105"
+  }
+  //#endregion
   
   //#endregion
 
