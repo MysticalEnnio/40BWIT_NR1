@@ -25,11 +25,16 @@ Copyright © 2021 Ennio Marke
 }
 
 h1 {
-  color: var(--secondary-color);
+  color: var(--heading-color);
+  font-size: 2rem;
+  margin-bottom: 1vh;
 }
 
-html {
-    background-color: var(--bg-color);
+body {
+  background-color: var(--bg-color);
+  max-width: 90%;
+  margin: 0 auto;
+  font-size: calc(1rem + 0.25vh);
 }
 
 a {
@@ -43,6 +48,33 @@ a:hover, a:focus {
   border-bottom: 3px solid currentColor;
 }
 
+p {
+  font-size: 1.1rem;
+  line-height: 1.6rem;
+}
+
+p.pundefined { color: var(--font-color); }
+p.pblack { color: black; }
+p.pwhite { color: white }
+p.pred { color: red }
+p.porange { color: orange }
+p.pyellow { color: yellow; }
+p.pgreen { color: lime }
+p.pblue { color: blue; }
+p.ppurple { color: purple; }
+
+section {
+  max-width: 68%;
+  margin: 0 auto;
+}
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 0;
+}
+
+
 .center {  
   display: flex;
   justify-content: center;
@@ -55,23 +87,6 @@ a:hover, a:focus {
   display: inline-block;
 }
 
-p {
-  font-size: 1.1rem;
-  line-height: 1.6rem;
-}
-
-p .pundefined { color: var(--font-color); }
-p .pblack { color: black; }
-p .pwhite { color: white }
-p .pred { color: red }
-p .porange { color: orange }
-p .pyellow { color: yellow; }
-p .pgreen { color: lime }
-p .pblue { color: blue; }
-p .ppurple { color: purple; }
-
-
-
 .btn {
   border: 2px solid gray;
   color: gray;
@@ -80,6 +95,10 @@ p .ppurple { color: purple; }
   border-radius: 8px;
   font-size: 20px;
   font-weight: bold;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .upload-btn-wrapper input[type=file] {
