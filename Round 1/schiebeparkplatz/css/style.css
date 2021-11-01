@@ -1,0 +1,184 @@
+/*************************************************
+Copyright © 2021 Ennio Marke
+ ____    ____  ____  ____   ______   _________  
+|_   \  /   _||_  _||_  _|.' ____ \ |  _   _  | 
+  |   \/   |    \ \  / /  | (___ \_||_/ | | \_| 
+  | |\  /| |     \ \/ /    _.____`.     | |     
+ _| |_\/_| |_    _|  |_   | \____) |   _| |_    
+|_____||_____|  |______|   \______.'  |_____| 
+*************************************************/
+
+:root {
+  --primary-color: #302AE6;
+  --secondary-color: #536390;
+  --font-color: #424242;
+  --bg-color: #fff;
+  --heading-color: #292922;
+}
+
+[data-theme="dark"] {
+  --primary-color: #9A97F3;
+  --secondary-color: #818cab;
+  --font-color: #e1e1ff;
+  --bg-color: #161625;
+  --heading-color: #818cab;
+}
+
+h1 {
+  color: var(--heading-color);
+  font-size: 2rem;
+  margin-bottom: 1vh;
+}
+
+body {
+  background-color: var(--bg-color);
+  max-width: 90%;
+  margin: 0 auto;
+  font-size: calc(1rem + 0.25vh);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  font-weight: bold;
+}
+
+a:hover, a:focus {
+  border-bottom: 3px solid currentColor;
+}
+
+em {
+  color: var(--font-color);
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.6rem;
+}
+
+p.pundefined { color: var(--font-color); }
+p.pblack { color: black; }
+p.pwhite { color: white }
+p.pred { color: red }
+p.porange { color: orange }
+p.pyellow { color: yellow; }
+p.pgreen { color: lime }
+p.pblue { color: blue; }
+p.ppurple { color: purple; }
+
+section {
+  max-width: 68%;
+  margin: 0 auto;
+}
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 0;
+}
+
+
+.center {  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+/*toggle switch*/
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.theme-switch-wrapper em {
+  margin-left: 10px;
+  font-size: 1rem;
+}
+
+.theme-switch {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
+}
+
+.theme-switch input {
+  display:none;
+}
+
+.slider {
+  background-color: #ccc;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+
+.slider:before {
+  background-color: #fff;
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 26px;
+}
+
+input:checked + .slider {
+  background-color: #66bb6a;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/*********************************
+       :\     /;               _
+      ;  \___/  ;             ; ;
+     ,:-"'   `"-:.            / ;
+    /,---.   ,---.\         _; /
+   ((  |  ) (  |  ))    ,-""_,"
+    \`````   `````/""""",-""
+     '-.._ v _..-'      )
+       / ___   ____,..  \
+      / /   | |   | ( \. \
+     / /    | |    | |  \ \
+     `"     `"     `"    `"
+*********************************/
