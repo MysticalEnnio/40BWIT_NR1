@@ -1,0 +1,26 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="wortsuche.css">
+    <title>Wortsuche</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1>Wortsuche</h1>
+    <p>Wörter hinzufügen:</p>
+    <input type="text" id="word_input" /><button id="add_word_button">Hinzufügen</button>
+    <div id="selected_word_div">
+
+    </div>
+    <br>
+    <p>Schwierigskeitsgrad:</p>
+    <input id="difficulty_level" type="range" min="1" max="3" step="1" value="1"/>
+    <br><br>
+    <p>Größe:</p>
+    <input type="number" id="x_size" placeholder="0"/> mal <input type="number" id="y_size" placeholder="0"/>
+    <br><br>
+    <button id="create">Erstellen</button>
+    <table id="grid_table">
+    </table>
+</body>
+<script src="wortsuche.js"></script>
+</html>
