@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //#endregion
 
   //#region Error checking
-  //#region 
+  //#region Errorcodes
   /*
   Errorcodes:
   101 = Range of Alphabet
@@ -214,9 +214,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function checkDoublePosVCars(vCars) {
     var vCarsPos = []
-    vCars.map(function(item){ vCarsPos.push(item.pos) });
+    var vCarsPosErrors = []
+    vCars.map((item)=>{vCarsPos.push(item.pos)});
+    vCarsPos = vCarsPos.map((item)=>{ return parseInt(item) }).sort((a, b) => a - b)
     dlog(vCarsPos)
-    return "105";
+    for (let i = 0; i < vCarsPos.length; i++) {
+      dlog(vCarsPos[i+1] - i)
+      if(vCarsPos[i+1] - i < 2) vCarsPosErrors.push(i+1)
+
+    }
+    dlog(vCarsPosErrors)
+    if(vCarsPosErrors.length > 0)
+    return "105"
   }
   //#endregion
   

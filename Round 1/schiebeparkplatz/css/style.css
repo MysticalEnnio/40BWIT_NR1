@@ -17,11 +17,11 @@ Copyright © 2021 Ennio Marke
 }
 
 [data-theme="dark"] {
-  --primary-color: #9A97F3;
-  --secondary-color: #818cab;
-  --font-color: #e1e1ff;
-  --bg-color: #161625;
-  --heading-color: #818cab;
+  --primary-color: #41c9b7;
+  --secondary-color: #39b0a0;
+  --font-color: #49e2ce;
+  --bg-color: #081917;
+  --heading-color: #39b0a0;
 }
 
 h1 {
