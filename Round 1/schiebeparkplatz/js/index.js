@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var vCarsPos = []
     vCars.map(function(item){ vCarsPos.push(item.pos) });
     dlog(vCarsPos)
-    return "105"
+    return "105";
   }
   //#endregion
   
