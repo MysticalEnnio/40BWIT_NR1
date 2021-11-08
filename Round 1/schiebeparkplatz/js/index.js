@@ -108,16 +108,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function prcInput(input) {
     //log letter and their position
-    dlog(input[0][0] + " alphabetPos: " + alphabetPos(input[0][0]), "green")
-    input[0][1] == " " ? dlog(input[0][2] + " alphabetPos: " + alphabetPos(input[0][2]), "green"):dlog(input[0][1] + " alphabetPos: " + alphabetPos(input[0][1]), "green");
+    //dlog(input[0][0] + " alphabetPos: " + alphabetPos(input[0][0]), "green")
+    //input[0][1] == " " ? dlog(input[0][2] + " alphabetPos: " + alphabetPos(input[0][2]), "green"):dlog(input[0][1] + " alphabetPos: " + alphabetPos(input[0][1]), "green");
 
     var hCarsNum = ( (alphabetPos(input[0][1]) ? alphabetPos(input[0][1]):alphabetPos(input[0][2])) > alphabetPos(input[0][0]) ?
       alphabetPos(input[0][1] == " " ? input[0][2]:input[0][1]) - alphabetPos(input[0][0]) + 1:
       alphabetPos(input[0][0]) - alphabetPos(input[0][1] == " " ? input[0][2]:input[0][1]) + 1
     );
-    dlog("hCarsNum: " + hCarsNum, "green");
+    //dlog("hCarsNum: " + hCarsNum, "green");
     var vCarsNum = input.length - 2;
-    dlog("vCarsNum: " + vCarsNum, "green");
+    //dlog("vCarsNum: " + vCarsNum, "green");
 
     class vCar {
       constructor(id, pos) {
@@ -131,11 +131,26 @@ document.addEventListener("DOMContentLoaded", () => {
       var car = new vCar(input[i + 2][0], input[i + 2][1] == " " ? input[i+2].slice(2, input[i+2].length):input[i+2].slice(1, input[i+2].length));
       vCars.push(car);
     }
-    dlog(vCars, "green")
-    if(dlog(checkError(hCarsNum, vCars), "red")) {
-      console.log("Errors occured!")
+    //dlog(vCars, "green")
+    var Errors = checkError(hCarsNum, vCars);
+    dlog(Errors, "red")
+    if(Errors.length > 0) {
+      console.error("Errors occured: \n" + Errors)
     }
+    generateOutput(hCarsNum, vCars)
   }
+  //#endregion
+
+  //#region Output
+
+  function generateOutput(hCarsNum, vCars) {
+    dlog(vCars)
+  }
+
+  function getCarsToMove() {
+    
+  }
+
   //#endregion
 
   //#region Error checking
