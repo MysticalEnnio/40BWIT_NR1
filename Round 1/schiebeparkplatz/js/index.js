@@ -216,6 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var vCarsPosErrors = []
     vCars.map((item)=>{vCarsPos.push(item.pos)});
     vCarsPos = vCarsPos.map((item)=>{ return parseInt(item) }).sort((a, b) => a - b)
+    vCarsPosErrors = vCarsPos.filter((pos, i)=>{ return vCarsPos[i+1]-pos < 2})
     dlog(vCarsPos)
     for (let i = 0; i < vCarsPos.length; i++) {
       dlog(vCarsPos[i+1] - i)
