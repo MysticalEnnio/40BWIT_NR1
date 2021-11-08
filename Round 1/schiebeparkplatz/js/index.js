@@ -128,17 +128,13 @@ document.addEventListener("DOMContentLoaded", () => {
     var vCars = [];
     for (let i = 0; i < vCarsNum; i++) {
       //how to use input var: input[line][letterIndex]
-      var car = new vCar(input[i + 2][0], input[i + 2][1] == " " ? input[i + 2][2]:input[i + 2][1]);
+      var car = new vCar(input[i + 2][0], input[i + 2][1] == " " ? input[i+2].slice(2, input[i+2].length):input[i+2].slice(1, input[i+2].length));
       vCars.push(car);
     }
     dlog(vCars, "green")
     if(dlog(checkError(hCarsNum, vCars), "red")) {
       console.log("Errors occured!")
     }
-  }
-
-  function checkArrayforDoubles(array) {
-
   }
   //#endregion
 
