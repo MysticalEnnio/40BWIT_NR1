@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //#region vars
   var letterRegex = /[a-zA-Z]+/;
-  var numberRegex = /[1-26]+/;
+  var numberRegex = /[1-26]/;
   var input;
   const dOutput = document.getElementById("doutput")
   //#endregion
@@ -161,9 +161,12 @@ document.addEventListener("DOMContentLoaded", () => {
     var vCarsIds = []
     vCars.map(item=>vCarsIds.push(item.id))
     
-    for (let i = 0; i < vCars.length; i++) {
-      
+    dlog(hCarsNum)
+    var hCarsIds = [];
+    for (let i = 0; i < hCarsNum; i++) {
+      hCarsIds.push(alphabetLetter(i+1))
     }
+    dlog(hCarsIds)
   }
 
   function logStep(step) {
