@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //#region vars
   var letterRegex = /[a-zA-Z]+/;
+  var numberRegex = /[1-26]+/;
   var input;
   const dOutput = document.getElementById("doutput")
   //#endregion
@@ -46,6 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
   //#region tools
 
   const findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
+
+  function searchPageObj(toFind) {
+    return Object.values(Pages).find((obj) => {
+            return obj.psw == toFind
+    });
+  }
 
   function dlog(data, color) {
     var e = new Error();
@@ -63,6 +70,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function alphabetPos(letter) {
     if (!letterRegex.test(letter)) return 0;
     return letter.toUpperCase().charCodeAt(0) - 64;
+  }
+
+  function alphabetLetter(number) {
+    if (!numberRegex.test(number)) return 0;
+    return String.fromCharCode(number+64);
   }
 
   function setInptArrayLs(array) {
@@ -143,12 +155,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //#region Output
 
+  var steps = [];
   function generateOutput(hCarsNum, vCars) {
     dlog(vCars)
+    var vCarsIds = []
+    vCars.map(item=>vCarsIds.push(item.id))
+    
+    for (let i = 0; i < vCars.length; i++) {
+      
+    }
   }
 
-  function getCarsToMove() {
-    
+  function logStep(step) {
+    steps.push(step)
   }
 
   //#endregion
