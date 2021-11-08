@@ -217,13 +217,10 @@ document.addEventListener("DOMContentLoaded", () => {
     vCars.map((item)=>{vCarsPos.push(item.pos)});
     vCarsPos = vCarsPos.map((item)=>{ return parseInt(item) }).sort((a, b) => a - b)
     vCarsPosErrors = vCarsPos.filter((pos, i)=>{ return vCarsPos[i+1]-pos < 2})
-    dlog(vCarsPos)
     for (let i = 0; i < vCarsPos.length; i++) {
-      dlog(vCarsPos[i+1] - i)
       if(vCarsPos[i+1] - i < 2) vCarsPosErrors.push(i+1)
 
     }
-    dlog(vCarsPosErrors)
     if(vCarsPosErrors.length > 0)
     return "105"
   }
