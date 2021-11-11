@@ -54,12 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function dlog(data, color) {
+  function dlog(data, color, noLN) {
+    var noLN = noLN || false
     var e = new Error();
     var frame = e.stack.split("\n")[2].split(":");
     var lineNumber = frame[1] == "///C" ? frame[3]:frame[1];
     if(typeof data == "string" || typeof data == "number" || typeof data == "boolean" || typeof data == "array") {
-      dOutput.innerHTML = dOutput.innerHTML + '<p class="p' + color + '">' + data + ' (' + lineNumber + ')' + '<br>'
+      dOutput.innerHTML = `${dOutput.innerHTML}<p class="p${color}">${data}${noLN == true? "":` (${lineNumber})` }<br>`
     } else if(typeof data == "object") {
       dOutput.innerHTML = dOutput.innerHTML + '<p class="p' + color + '">' + JSON.stringify(data) + ' (' + lineNumber + ')' + "<br>"
     }
@@ -73,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function alphabetLetter(number) {
-    if (!numberRegex.test(number)) return 0;
+    //if (!numberRegex.test(number)) return 0;
     return String.fromCharCode(number+64);
   }
 
@@ -155,8 +156,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //#region Output
 
-  var steps = [];
+  var steps;
   function generateOutput(hCarsNum, vCars) {
+    var vCarsPos = [];
+    vCars.map((item)=>{vCarsPos.push(item.pos)});
+    vCarsPos = vCarsPos.map((item)=>{ return parseInt(item) }).sort((a, b) => a - b)
+
     dlog(vCars)
     var vCarsIds = []
     vCars.map(item=>vCarsIds.push(item.id))
@@ -167,6 +172,22 @@ document.addEventListener("DOMContentLoaded", () => {
       hCarsIds.push(alphabetLetter(i+1))
     }
     dlog(hCarsIds)
+    for (let i = 0; i < hCarsIds.length; i++) {
+      generateSteps(hCarsIds[i], i, vCarsPos)
+    }
+  }
+
+  function generateSteps(id, idPos, vCarsPos) {
+    steps = []
+    if(vCarsPos.filter((item)=>{return (idPos - item)>=0 && (idPos - item)<2 }).length > 0) {
+      steps.push("!")
+    } 
+
+    dlog(id + ": " + steps, undefined, 1)
+  }
+
+  function canMoveCar(direction, vCarsPos, vCarPos) {
+
   }
 
   function logStep(step) {

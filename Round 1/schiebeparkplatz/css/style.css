@@ -78,6 +78,10 @@ nav {
   padding: 20px 0;
 }
 
+input[type=file], /* FF, IE7+, chrome (except button) */
+input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
+    cursor: pointer; 
+}
 
 .center {  
   display: flex;
@@ -92,12 +96,13 @@ nav {
 }
 
 .btn {
-  border: 2px solid gray;
-  color: gray;
-  background-color: white;
+  cursor: pointer;
+  border: 2px solid var(--font-color);
+  color: var(--font-color);
+  background-color: var(--bg-color);
   padding: 8px 20px;
   border-radius: 8px;
-  font-size: 20px;
+  font-size: 1em;
   font-weight: bold;
 }
 
