@@ -6,14 +6,20 @@
  | |\  /| |     \ \/ /    _.____`.     | |
  _| |_\/_| |_    _|  |_   | \____) |   _| |_
  |_____||_____|  |______|   \______.'  |_____|
+
+ vCar = vertical Car
+ hCar = horizontal Car
+ how to use input var: input[line][letterIndex]
  *************************************************/
 //#region Main
 document.addEventListener("DOMContentLoaded", () => {
 
   //#region darkmode
+  //get toggleSwitch from DOM and currentTheme from Local storage
   const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
   const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 
+  //check if localstorage theme is darkmode
   if (currentTheme) {
     document.documentElement.setAttribute('data-theme', currentTheme);
 
@@ -22,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  //switch theme to dark or lightmode
   function switchTheme(e) {
     if (e.target.checked) {
         document.documentElement.setAttribute('data-theme', 'dark');
@@ -33,61 +40,82 @@ document.addEventListener("DOMContentLoaded", () => {
     }    
   }
   
+  //add event listener for the theme switch
   toggleSwitch.addEventListener('change', switchTheme, false);
   //#endregion
 
   //#region vars
+  //Regex to check if input is letter
   var letterRegex = /[a-zA-Z]+/;
+  //Regex to check if input is number
   var numberRegex = /[1-26]/;
+  //define input variable
   var input;
+  //define get DOM output element
   const dOutput = document.getElementById("doutput")
   //#endregion
 
   //#region functions
   //#region tools
 
+  //find duplicates in an array
   const findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
 
+  //function from other code (may come in usefull later)
   function searchPageObj(toFind) {
     return Object.values(Pages).find((obj) => {
             return obj.psw == toFind
     });
   }
 
+  //log input to DOM output element
+  //data: input to log to output
+  //color: color of output text (defined in ../css/style.css:60-68)
+  //noLN(no line number): when true not show line of calling function after output
   function dlog(data, color, noLN) {
+    //check if noLN got defined. If not set it to false
     var noLN = noLN || false
+    //generate new error message to get line from calling function
     var e = new Error();
+    //modify output to only show line number
     var frame = e.stack.split("\n")[2].split(":");
     var lineNumber = frame[1] == "///C" ? frame[3]:frame[1];
+    //check if input is object. When input is object stingify it to be able to log it
     if(typeof data == "string" || typeof data == "number" || typeof data == "boolean" || typeof data == "array") {
+      //add input to output elemnt with params
       dOutput.innerHTML = `${dOutput.innerHTML}<p class="p${color}">${data}${noLN == true? "":` (${lineNumber})` }<br>`
     } else if(typeof data == "object") {
+      //add strinified input to output elemnt with params
       dOutput.innerHTML = dOutput.innerHTML + '<p class="p' + color + '">' + JSON.stringify(data) + ' (' + lineNumber + ')' + "<br>"
     }
   }
 
-  //A B C D E F G H I J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  
-  //1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+  //return the position of a given number in alphabet
   function alphabetPos(letter) {
     if (!letterRegex.test(letter)) return 0;
     return letter.toUpperCase().charCodeAt(0) - 64;
   }
 
+  //check alphabet letter of given number(can be 1-26)
   function alphabetLetter(number) {
+    //if(alphabetLetter > 0 && alphabetLetter < 27)
     //if (!numberRegex.test(number)) return 0;
     return String.fromCharCode(number+64);
   }
 
+  //save array to local storage
   function setInptArrayLs(array) {
     localStorage.setItem("InputTxt", JSON.stringify(array));
   }
 
+  //get array from local storage
   function getInptArrayLs() {
     return JSON.parse(localStorage.getItem("InputTxt"));
   }
   //#endregion
 
   //#region Input
+  //check if array has been previousley saved to local storage or array has been uploaded using input.
   function getInput() {
     if(localStorage.getItem("InputTxt") == null) {
       if(this.files) {
@@ -103,7 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  //read a file as string (unexpected XD)
   function readFileAsString(files, type) {
+    //check 
     if (files.length === 0) {
       dlog('No file is selected', "red");
       return;
@@ -119,37 +149,40 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsText(files[0]);
   }
 
+  //prc txt input
   function prcInput(input) {
-    //log letter and their position
-    //dlog(input[0][0] + " alphabetPos: " + alphabetPos(input[0][0]), "green")
-    //input[0][1] == " " ? dlog(input[0][2] + " alphabetPos: " + alphabetPos(input[0][2]), "green"):dlog(input[0][1] + " alphabetPos: " + alphabetPos(input[0][1]), "green");
 
+    //bad code to get the number of horizontal Cars
     var hCarsNum = ( (alphabetPos(input[0][1]) ? alphabetPos(input[0][1]):alphabetPos(input[0][2])) > alphabetPos(input[0][0]) ?
       alphabetPos(input[0][1] == " " ? input[0][2]:input[0][1]) - alphabetPos(input[0][0]) + 1:
       alphabetPos(input[0][0]) - alphabetPos(input[0][1] == " " ? input[0][2]:input[0][1]) + 1
     );
-    //dlog("hCarsNum: " + hCarsNum, "green");
+    //good to Code to get number of horizontal Cars
     var vCarsNum = input.length - 2;
-    //dlog("vCarsNum: " + vCarsNum, "green");
 
+    //define the class for the vertical Car
     class vCar {
       constructor(id, pos) {
         this.id = id;
         this.pos = pos;
       }
     };
+    //define the vertical Cars Array, where all vertical cars are getting stored
     var vCars = [];
+    //push every vertical Car from input txt to vertical car object
     for (let i = 0; i < vCarsNum; i++) {
-      //how to use input var: input[line][letterIndex]
       var car = new vCar(input[i + 2][0], input[i + 2][1] == " " ? input[i+2].slice(2, input[i+2].length):input[i+2].slice(1, input[i+2].length));
       vCars.push(car);
     }
-    //dlog(vCars, "green")
+    //check for Errors in input file
     var Errors = checkError(hCarsNum, vCars);
+    //log the Errors to DOM output
     dlog(Errors, "red")
+    //log the Errors to console
     if(Errors.length > 0) {
       console.error("Errors occured: \n" + Errors)
     }
+    //generate steps vertical cars need to take to free horizontal cars
     generateOutput(hCarsNum, vCars)
   }
   //#endregion
@@ -208,6 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
   */
   //#endregion
   //#region Main
+  //check for Errors
   function checkError(hCarsNum, vCars) {
     var Errors = [];
     pushErrors(checkErrorL1(), Errors)
@@ -225,6 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //#endregion
 
   //#region L1
+  //check for Errors in Line 1
   function checkErrorL1() {
     if (alphabetPos(input[0][0]) < 1 || input[0][1] != " " ? (alphabetPos(input[0][1]) < 1):(alphabetPos(input[0][2]) < 1)) {
       dlog(alphabetPos(input[0][0]), "red")
@@ -234,6 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //#endregion
 
   //#region L2
+  //check for Errors in Line 2
   function checkErrorL2(hCarsNum) {
     var L2Errors = [];
     if (input[1][0] != input.length - 2) {
@@ -247,6 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //#endregion
 
   //#region vCars
+  //check for Errors in the vertical Cars
   function checkErrorVCars(vCars) {
     var vCarErrors = []
     vCarErrors.push(checkDoubleIdVCars(vCars))
@@ -262,6 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //#endregion
 
   //#region vCars Double Errors
+  //check for Double vCar Ids
   function checkDoubleIdVCars(vCars) {
     var valueArr = vCars.map(function(item){ return item.id });
     if(valueArr.some(function(item, idx){ 
@@ -269,6 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })) return "104"
   }
 
+  //check one vCar is in another
   function checkDoublePosVCars(vCars) {
     var vCarsPos = []
     var vCarsPosErrors = []
@@ -289,6 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //#endregion
 
   //#region eventListener
+  //add event listener to check if files got inputed
   document.getElementById('fInput').addEventListener('change', getInput)
   getInput()
   //#endregion
