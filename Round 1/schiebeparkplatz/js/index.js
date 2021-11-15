@@ -190,37 +190,65 @@ document.addEventListener("DOMContentLoaded", () => {
   //#region Output
 
   var steps;
+  //generate which cars to move where
   function generateOutput(hCarsNum, vCars) {
     var vCarsPos = [];
     vCars.map((item)=>{vCarsPos.push(item.pos)});
     vCarsPos = vCarsPos.map((item)=>{ return parseInt(item) }).sort((a, b) => a - b)
 
+    //generate vCars Ids
     dlog(vCars)
     var vCarsIds = []
     vCars.map(item=>vCarsIds.push(item.id))
     
+    //generate hCars Ids
     dlog(hCarsNum)
     var hCarsIds = [];
     for (let i = 0; i < hCarsNum; i++) {
       hCarsIds.push(alphabetLetter(i+1))
     }
+
+    //generate steps for every car to free a car
     dlog(hCarsIds)
     for (let i = 0; i < hCarsIds.length; i++) {
       generateSteps(hCarsIds[i], i, vCarsPos)
     }
   }
 
+  //generate steps for a cars need to move to get another car out
   function generateSteps(id, idPos, vCarsPos) {
     steps = []
     if(vCarsPos.filter((item)=>{return (idPos - item)>=0 && (idPos - item)<2 }).length > 0) {
-      steps.push("!")
+      steps.push(canMoveCar("left", vCarsPos, idPos))
     } 
 
     dlog(id + ": " + steps, undefined, 1)
   }
 
-  function canMoveCar(direction, vCarsPos, vCarPos) {
+  //check if car can move
+  function canMoveCar(direction,  vCarsPos, vCarPos, times) {
+    dlog(vCarsPos)
+    dlog(vCarPos)
+    times ?? 1
+    switch (direction) {
+      case "left":
+        
+        break;
+      case "right":
 
+        break;
+    }
+    var vCarsPosErrors = [];
+    vCarsPos = vCarsPos.map((item)=>{ return parseInt(item) }).sort((a, b) => a - b)
+    vCarsPosErrors = vCarsPos.filter((pos, i)=>{ return vCarsPos[i+1]-pos < 2})
+    for (let i = 0; i < vCarsPos.length; i++) {
+      if(vCarsPos[i+1] - i < 2) vCarsPosErrors.push(i+1)
+
+    }
+    if(vCarsPosErrors.length > 0)
+    return 0
+    else
+    return 1
   }
 
   function logStep(step) {
