@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function canMoveCar(direction,  vCarsPos, vCarPos, times) {
     dlog(vCarsPos)
     dlog(vCarPos)
-    times ?? 1
+    times = times ?? 1
     switch (direction) {
       case "left":
         
