@@ -218,8 +218,10 @@ document.addEventListener("DOMContentLoaded", () => {
   //generate steps for a cars need to move to get another car out
   function generateSteps(id, idPos, vCarsPos) {
     steps = []
+    //check if Car is in front of other Car
     if(vCarsPos.filter((item)=>{return (idPos - item)>=0 && (idPos - item)<2 }).length > 0) {
-      steps.push(canMoveCar("left", vCarsPos, idPos))
+      canMoveCar("left", vCarsPos, idPos)
+      steps.push("!")
     } 
 
     dlog(id + ": " + steps, undefined, 1)
@@ -227,12 +229,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //check if car can move
   function canMoveCar(direction,  vCarsPos, vCarPos, times) {
-    dlog(vCarsPos)
-    dlog(vCarPos)
     times = times ?? 1
     switch (direction) {
       case "left":
-        
+        vCarsPos.find(e => e == vCarPos) == undefined ? vCarPos -= 1:""
+        console.log(vCarPos)
         break;
       case "right":
 
