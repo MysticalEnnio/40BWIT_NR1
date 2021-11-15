@@ -232,12 +232,11 @@ document.addEventListener("DOMContentLoaded", () => {
   //#region Error checking
   //#region Errorcodes
   /*
-  Errorcodes:
-  101 = Range of Alphabet
-  102 = Number of vCars
-  103 = Too many vCars
-  104 = Double vCar Ids
-  105 = Double vCar Pos
+  101 = Range of Alphabet (First line)
+  102 = Number of vCars (Second line)
+  103 = Too many vCars (Third to last line)
+  104 = Double vCar Ids (Third to last line)
+  105 = Double vCar Pos (Third to last line)
   */
   //#endregion
   //#region Main
@@ -250,6 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return Errors;
   }
 
+  //push Errors to Error array
   function pushErrors(ErrorsTP, Errors) {
     if(!ErrorsTP) return 
     for(let i = 0; i < ErrorsTP.length; i++) {
@@ -307,7 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })) return "104"
   }
 
-  //check one vCar is in another
+  //check if one vCar is in another
   function checkDoublePosVCars(vCars) {
     var vCarsPos = []
     var vCarsPosErrors = []
