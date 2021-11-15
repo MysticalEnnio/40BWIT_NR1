@@ -229,7 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //check if car front or back is at vCarPos
   function checkCarSide(vCarsPos, vCarPos) {
-
+    if(vCarsPos.find(e => e == vCarPos) == undefined)
+    return 1
+    else if(vCarsPos.find(e => e == vCarPos - 1) == undefined) 
+    return 0
   }
 
   //check if car can move
@@ -237,9 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
     times = times ?? 1
     switch (direction) {
       case "left":
-        console.log(vCarPos)
-        vCarsPos.find(e => e == vCarPos) == undefined ? vCarPos -= 1:""
-        
+        console.log(checkCarSide(vCarsPos, vCarPos)) 
         break;
       case "right":
 
