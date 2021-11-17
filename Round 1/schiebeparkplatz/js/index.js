@@ -89,6 +89,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  //clear DOM output element
+  function clearDLog() {
+    dOutput.innerHTML = "";
+  }
+
   //return the position of a given number in alphabet
   function alphabetPos(letter) {
     if (!letterRegex.test(letter)) return 0;
@@ -143,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.onload = function (event) {
       input = event.target.result.split('\n')
       setInptArrayLs(input);
+      clearDLog();
       prcInput(input);
     };
     reader.readAsText(files[0]);
@@ -175,11 +181,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     //check for Errors in input file
     var Errors = checkError(hCarsNum, vCars);
-    //log the Errors to DOM output
-    dlog(Errors, "red")
-    //log the Errors to console
+
+    //log the Errors
     if(Errors.length > 0) {
+      dlog(Errors, "red")
       console.error("Errors occured: \n" + Errors)
+      return
     }
     //generate steps vertical cars need to take to free horizontal cars
     generateOutput(hCarsNum, vCars)
@@ -196,19 +203,16 @@ document.addEventListener("DOMContentLoaded", () => {
     vCarsPos = vCarsPos.map((item)=>{ return parseInt(item) }).sort((a, b) => a - b)
 
     //generate vCars Ids
-    dlog(vCars)
     var vCarsIds = []
     vCars.map(item=>vCarsIds.push(item.id))
     
     //generate hCars Ids
-    dlog(hCarsNum)
     var hCarsIds = [];
     for (let i = 0; i < hCarsNum; i++) {
       hCarsIds.push(alphabetLetter(i+1))
     }
 
     //generate steps for every car to free a car
-    dlog(hCarsIds)
     for (let i = 0; i < hCarsIds.length; i++) {
       generateSteps(hCarsIds[i], i, vCarsPos)
     }
@@ -237,14 +241,10 @@ document.addEventListener("DOMContentLoaded", () => {
   //check if car can move
   function canMoveCar(direction,  vCarsPos, vCarPos, times) {
     times = times ?? 1
-    switch (direction) {
-      case "left":
-        console.log(checkCarSide(vCarsPos, vCarPos)) 
-        break;
-      case "right":
+    if(direction == "left")
+      console.log(checkCarSide(vCarsPos, vCarPos)) 
+    else if(direction == "right")
 
-        break;
-    }
     var vCarsPosErrors = [];
     vCarsPos = vCarsPos.map((item)=>{ return parseInt(item) }).sort((a, b) => a - b)
     vCarsPosErrors = vCarsPos.filter((pos, i)=>{ return vCarsPos[i+1]-pos < 2})
