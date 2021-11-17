@@ -176,9 +176,10 @@ document.addEventListener("DOMContentLoaded", () => {
     var vCars = [];
     //push every vertical Car from input txt to vertical car object
     for (let i = 0; i < vCarsNum; i++) {
-      var car = new vCar(input[i + 2][0], input[i + 2][1] == " " ? input[i+2].slice(2, input[i+2].length):input[i+2].slice(1, input[i+2].length));
+      var car = new vCar(input[i + 2][0], input[i + 2][1] == " " ? input[i+2].slice(2, input[i+2].length).replace('\r', ''):input[i+2].slice(1, input[i+2].length).replace('\r', ''));
       vCars.push(car);
     }
+
     //check for Errors in input file
     var Errors = checkError(hCarsNum, vCars);
 
@@ -214,17 +215,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //generate steps for every car to free a car
     for (let i = 0; i < hCarsIds.length; i++) {
-      generateSteps(hCarsIds[i], i, vCarsPos)
+      generateSteps(hCarsIds[i], i, vCarsPos, vCars, hCarsNum)
     }
   }
 
   //generate steps for a cars need to move to get another car out
-  function generateSteps(id, idPos, vCarsPos) {
+  function generateSteps(id, idPos, vCarsPos, vCars, hCarsNum) {
     steps = []
     //check if Car is in front of other Car
     if(vCarsPos.filter((item)=>{return (idPos - item)>=0 && (idPos - item)<2 }).length > 0) {
-      canMoveCar("left", vCarsPos, idPos)
-      steps.push("!")
+      vCarId = vCars.find((item)=>{return item.pos == idPos || item.pos == idPos - 1}).id
+      if(checkCarSide(vCarsPos, idPos)) {
+        if(canMoveCar("left", vCarsPos, idPos, hCarsNum, 1)) {
+          steps.push(` ${vCarId} 1 links`)
+        } else {
+          steps.push("!")
+        }
+      } else {
+        steps.push(0)
+      }
+      //canMoveCar("left", vCarsPos, idPos)
+
     } 
 
     dlog(id + ": " + steps, undefined, 1)
@@ -239,20 +250,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   //check if car can move
-  function canMoveCar(direction,  vCarsPos, vCarPos, times) {
-    times = times ?? 1
-    if(direction == "left")
-      console.log(checkCarSide(vCarsPos, vCarPos)) 
-    else if(direction == "right")
-
-    var vCarsPosErrors = [];
-    vCarsPos = vCarsPos.map((item)=>{ return parseInt(item) }).sort((a, b) => a - b)
-    vCarsPosErrors = vCarsPos.filter((pos, i)=>{ return vCarsPos[i+1]-pos < 2})
-    for (let i = 0; i < vCarsPos.length; i++) {
-      if(vCarsPos[i+1] - i < 2) vCarsPosErrors.push(i+1)
+  function canMoveCar(direction,  vCarsPos, vCarPos, hCarsNum, times = 1) {
+    if(direction == "left") {
+      newVCarsPos = [...vCarsPos]
+      newVCarsPos[newVCarsPos.indexOf(vCarPos -1)] -= 1
+      console.log(newVCarsPos)
+    }
+    else if(direction == "right") {
 
     }
-    if(vCarsPosErrors.length > 0)
+
+    var vCarsPosErrors = [];
+    
+    newVCarsPos = newVCarsPos.map((item)=>{ return parseInt(item) }).sort((a, b) => a - b)
+    vCarsPosErrors = newVCarsPos.filter((pos, i)=>{ return newVCarsPos[i+1]-pos < 2})
+    for (let i = 0; i < newVCarsPos.length; i++) {
+      if(newVCarsPos[i+1] - i < 2) vCarsPosErrors.push(i+1)
+    }
+    vCarsPosErrors.push(newVCarsPos.filter(item=>item<0||item>hCarsNum))
+    console.log(vCarsPosErrors)
+    if(vCarsPosErrors[0] != 0 || vCarsPosErrors.length > 1)
     return 0
     else
     return 1
